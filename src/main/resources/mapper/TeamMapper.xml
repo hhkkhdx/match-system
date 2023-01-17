@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuan.matchsystem.mapper.TeamMapper">
+
+    <resultMap id="BaseResultMap" type="com.xuan.matchsystem.model.domain.Team">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
+            <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,description,
+        max_num,expire_time,user_id,
+        status,password,create_time,
+        update_time,is_delete
+    </sql>
+
+    <select id="getUsersByTeamId" resultType="com.xuan.matchsystem.model.vo.UserVO">
+        select
+            u.id, u.username, u.user_account, u.avatar_url, u.gender, u.phone, u.email,
+            u.user_status, u.create_time, u.update_time, u.user_role, u.tags
+        from
+            `team` t
+                left join
+            `user_team` ut
+            on
+                t.id = ut.team_id
+                left join
+            `user` u
+            on
+                ut.user_id = u.id
+        where
+            ut.team_id = #{teamId}
+        group by
+            u.id;
+    </select>
+
+    <select id="listJoinTeam" resultType="com.xuan.matchsystem.model.domain.Team">
+        select
+            t.*
+        from
+            `team` t
+        left join
+            `user_team` ut
+        on
+            ut.team_id = t.id
+        where
+            ut.user_id = #{userId}
+        group by
+            t.id
+    </select>
+
+    <select id="listCreateTeams" resultType="com.xuan.matchsystem.model.domain.Team">
+        select
+            t.*
+        from
+            `team` t
+        left join
+            `user_team` ut
+        on
+            ut.team_id = t.id
+        where
+            t.user_id = #{userId}
+        group by
+            t.id
+    </select>
+</mapper>

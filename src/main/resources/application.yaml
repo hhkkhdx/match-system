@@ -1,0 +1,36 @@
+spring:
+  mvc:
+    pathmatch:
+      # Springfox使用的路径匹配是基于AntPathMatcher的，而Spring Boot 2.6.X使用的是PathPatternMatcher
+      # 所以需要配置此参数
+      matching-strategy: ant_path_matcher
+  application:
+    name: match-system
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/match_system?serverTimezone=Asia/Shanghai
+    username: root
+    password: 56789x
+  # redis 配置
+  redis:
+    port: 6379
+    host: localhost
+    database: 0
+  session:
+    timeout: 86400
+    store-type: redis
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: is_delete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
