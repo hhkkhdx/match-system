@@ -1,6 +1,5 @@
 package com.xuan.matchsystem.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xuan.matchsystem.common.BaseResponse;
 import com.xuan.matchsystem.common.ErrorCode;
 import com.xuan.matchsystem.common.ResultUtils;
@@ -125,7 +124,6 @@ public class UserController {
         if (user == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // todo 补充校验 如果用户没有任何更新的值 不执行update语句
         User loginUser = userService.getLoginUser(request);
         if (loginUser == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN);

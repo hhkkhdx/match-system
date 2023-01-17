@@ -56,7 +56,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 1. 校验
         // 非空 长度校验
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
-            // todo: 修改为自定义异常
 //            return -1;
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
